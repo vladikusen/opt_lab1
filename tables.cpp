@@ -112,7 +112,7 @@ void TokenAnalyser::analyze() {
         bool supressOutput = false;
 
         switch(symbol.second) {
-            case 0: //ws
+            case 0:
                 while(!program.eof()) {
                     symbol = getChar();
                     if(symbol.second > 0 || symbol.second < 0) {
@@ -121,7 +121,6 @@ void TokenAnalyser::analyze() {
                 }
             case 1:
                 while(!program.eof() && symbol.second == 1) {
-                    
                     buffer += symbol.first;
                     symbol = getChar();
                 }
@@ -139,10 +138,11 @@ void TokenAnalyser::analyze() {
                         idnTabSearch(buffer);
                     }
                     buffer = "";
-                } 
+                }
+                break; 
             case 3:
                 // symbol = getChar();
-                std::cout << symbol.first << std::endl;
+                std::cout << "DEL" << symbol.first << "DEL" << std::endl;
 
         }
     }
