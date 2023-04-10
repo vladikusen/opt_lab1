@@ -1,7 +1,7 @@
 PROGRAM MAIN ;
 BEGIN
     LOOP
-        CASE VARIABLE OF
+        CASE */comment/* VARIABLE OF
             VARIABLE1 * 4 : VARIABLE * 22;
             VARIABLE2 * 2 : VARIABLE2 MOD 1;
             VARIABLE3 MOD 5 : VARIABLE2 * 2;

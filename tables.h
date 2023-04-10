@@ -14,6 +14,8 @@ public:
     void init();
     void showInitialProgram() { std::cout << initialProgram << std::endl; }
     std::pair<char, int> getChar();
+    void writeToken(std::string token, int tokenCode, bool delimiter = false);
+    void writeError(std::string);
     int idnTabSearch(std::string);
     int kTabSearch(std::string);
     int constTabSearch(std::string);
@@ -24,7 +26,8 @@ private:
         WS,
         CNS,
         IDN,
-        DM,
+        DM1,
+        DM2,
         ERR
     };
     enum keywordTokenValues {
@@ -44,6 +47,9 @@ private:
     std::map<std::string, int> constTokens;
     std::string initialProgram;
     std::ifstream program;
+    std::ofstream outProgram;
+    int row;
+    int column;
 };
 
 #endif 
