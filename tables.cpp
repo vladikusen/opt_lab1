@@ -25,6 +25,7 @@ void TokenAnalyser::init() {
     tokens.at(46) = tokenValues::DM; // .
     
     kTokens["PROGRAM"] = keywordTokenValues::PROGRAM;
+    kTokens["BEGIN"] = keywordTokenValues::BEGIN;
     kTokens["END"] = keywordTokenValues::END;
     kTokens["LOOP"] = keywordTokenValues::LOOP;
     kTokens["ENDLOOP"] = keywordTokenValues::ENDLOOP;
@@ -134,9 +135,15 @@ void TokenAnalyser::analyze() {
                     symbol = getChar();
                 } 
                 if(!buffer.empty()) {
-                    idnTabSearch(buffer);
+                    if(kTabSearch(buffer) == -1) {
+                        idnTabSearch(buffer);
+                    }
                     buffer = "";
                 } 
+            case 3:
+                // symbol = getChar();
+                std::cout << symbol.first << std::endl;
+
         }
     }
     program.close();

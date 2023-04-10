@@ -35,7 +35,8 @@ private:
         CASE,
         OF,
         ENDCASE,
-        MOD
+        MOD,
+        BEGIN
     };
     std::vector<tokenValues> tokens{128, tokenValues::ERR};
     std::map<std::string, keywordTokenValues> kTokens;
