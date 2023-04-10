@@ -1,0 +1,9 @@
+PROGRAM MAIN ;
+BEGIN
+    LOOP
+        CASE VARIABLE OF
+            VARIABLE1 * 4: VARIABLE * 2;
+            VARIABLE2 * 2: VARIABLE2 MOD 1;
+            VARIABLE3 MOD 5: VARIABLE2 * 2;
+        ENDCASE;
+    ENDLOOP;
