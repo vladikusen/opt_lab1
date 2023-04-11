@@ -1,5 +1,5 @@
-#ifndef __TABLES_H__
-#define __TABLES_H__
+#ifndef __ANALYSER_H__
+#define __ANALYSER_H__
 
 #include <iostream>
 #include <string>
@@ -12,7 +12,6 @@ public:
     TokenAnalyser() = default;
     TokenAnalyser(std::string fileName);
     void init();
-    void showInitialProgram() { std::cout << initialProgram << std::endl; }
     std::pair<char, int> getChar();
     void writeToken(std::string token, int tokenCode, bool delimiter = false);
     void writeError(std::string);

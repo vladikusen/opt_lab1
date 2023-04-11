@@ -1,4 +1,4 @@
-#include "tables.h"
+#include "analyser.h"
 
 #include <memory>
 
@@ -76,11 +76,11 @@ int TokenAnalyser::findMax(std::string tokenMap) {
     std::shared_ptr<std::map<std::string, int>> tMap = nullptr;
     if(tokenMap == "idnTokens") {
         tMap = std::make_shared<std::map<std::string, int>>(idnTokens); 
-        value = 500; 
+        value = 1000; 
     }
     else {
         tMap = std::make_shared<std::map<std::string, int>>(constTokens);
-        value = 600;
+        value = 500;
     } 
     if(tMap->empty()) {
         return value;

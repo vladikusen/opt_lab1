@@ -1,9 +1,9 @@
 PROGRAM MAIN ;
 BEGIN
     LOOP
-        CASE */comment/* VARIABLE OF
-            VARIABLE1 * 4 : VARIABLE * 22;
-            VARIABLE2 * 2 : VARIABLE2 MOD 1;
-            VARIABLE3 MOD 5 : VARIABLE2 * 2;
+        CASE vARIABLE */ OF
+            VARIABLE1 mOD 411 : VARIABLE * 22;
+            VARIABLE2 * 2 : VARIABLE2 MOD 1; 
+            VARIABLE3 MOD 51 : VARIABLE2 * 2; /
         ENDCASE;
     ENDLOOP;

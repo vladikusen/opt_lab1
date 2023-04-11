@@ -6,6 +6,6 @@ enable_language(CXX)
 set(CMAKE_BUILD_TYPE Debug)
 add_executable(lab1 
     main.cpp   
-    tables.cpp 
-    tables.h
+    analyser.cpp 
+    analyser.h
 )
