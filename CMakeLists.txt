@@ -8,4 +8,6 @@ add_executable(lab1
     main.cpp   
     analyser.cpp 
     analyser.h
+    parser.h
+    parser.cpp
 )

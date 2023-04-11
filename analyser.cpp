@@ -53,8 +53,8 @@ TokenAnalyser::TokenAnalyser(std::string fileName) {
 std::pair<char, int> TokenAnalyser::getChar() {
     if(program.is_open()) {
         char c;
+        column++;
         if(program.get(c)) {
-            column++;
             return std::pair<char, int>(c, tokens.at(c));
         }
         else {
@@ -64,11 +64,18 @@ std::pair<char, int> TokenAnalyser::getChar() {
 }
 
 void TokenAnalyser::writeToken(std::string token, int tokenCode, bool delimiter) {
-    outProgram << row << "\t\t" << column - token.length() << "\t\t" << tokenCode << "\t" << token << std::endl; 
+    int _column = token.length() > 1 ? column - token.length() : column;
+    outStringProgram += std::to_string(row) + "\t\t" + std::to_string(column - token.length()) + "\t\t" + std::to_string(tokenCode) + "\t\t" + token + "\n"; 
+    outProgram << row << "\t\t" << column - token.length() << "\t\t" << tokenCode << "\t\t" << token << std::endl; 
 }
 
 void TokenAnalyser::writeError(std::string error) {
+    outStringProgram += std::to_string(row) + "\t\t" + std::to_string(column) + "\t\t" + error + "\n";
     outProgram << row << "\t\t" << column << "\t\t" << error << std::endl;
+}
+
+std::string TokenAnalyser::out() {
+    return outStringProgram; 
 }
 
 int TokenAnalyser::findMax(std::string tokenMap) {
@@ -121,7 +128,6 @@ void TokenAnalyser::analyze() {
     auto symbol = getChar();
     while(!program.eof()) {
         std::string buffer = std::string("");
-        bool supressOutput = false;
 
         switch(symbol.second) {
             case 0:
@@ -194,11 +200,9 @@ void TokenAnalyser::analyze() {
                 break; 
             }
             case 4: {
-                std::string delimiterToString = "";
                 char delimiterToken = symbol.first; 
-                delimiterToString += delimiterToken;
                 symbol = getChar();
-                writeToken(delimiterToString, delimiterToken);
+                writeToken(std::string(1, delimiterToken), delimiterToken);
                 break;
             }
             case 5:

@@ -19,6 +19,7 @@ public:
     int kTabSearch(std::string);
     int constTabSearch(std::string);
     void analyze();
+    std::string out();
 private:
     int findMax(std::string);
     enum tokenValues {
@@ -47,6 +48,7 @@ private:
     std::string initialProgram;
     std::ifstream program;
     std::ofstream outProgram;
+    std::string outStringProgram;
     int row;
     int column;
 };
