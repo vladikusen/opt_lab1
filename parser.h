@@ -14,12 +14,35 @@ public:
     Parser() = default;
     ~Parser() = default;
     void program();
+    void statementsList();
+    void statement();
+    void procedureIdentifier();
+    void blockIdentifier();
+    void expression();
+    void multiplier();
+    void multipliersList();
+    void multiplicationInstruction();
+    void altlist();
 public:
     int getToken();
-    void setTokens(std::queue<tokenInfo> tokens_);
+    void setTokens(std::string tokens_);
+    void setTokens(std::queue<int> tokens_);
 
+    void setKTokens(std::map<std::string, keywordTokenValues> kTokens_) {
+        kTokens = kTokens_;
+    }
+    void setIdnTokens(std::map<std::string, int> idnTokens_) {
+        idnTokens = idnTokens_;
+    }
+    void setConstTokens(std::map<std::string, int> constTokens_) {
+        constTokens = constTokens_;
+    }
 private:
-    std::unique_ptr<std::queue<tokenInfo>> tokens;
+    std::queue<int> tokens;
+    std::istringstream tokenString;
+    std::map<std::string, keywordTokenValues> kTokens;
+    std::map<std::string, int> idnTokens;
+    std::map<std::string, int> constTokens;
 };
 
 #endif

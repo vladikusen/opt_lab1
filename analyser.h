@@ -8,6 +8,26 @@
 #include <fstream>
 #include <queue>
 
+enum tokenValues {
+    WS,
+    CNS,
+    IDN,
+    DM1,
+    DM2,
+    ERR
+};
+enum keywordTokenValues {
+    PROGRAM = 401,
+    END,
+    LOOP,
+    ENDLOOP,
+    CASE,
+    OF,
+    ENDCASE,
+    MOD,
+    BEGIN
+};
+
 struct tokenInfo {
     tokenInfo(int row_, int column_, int token_, std::string& value_) : row(row_), column(column_), token(token_), value(value_) {}
     int row;
@@ -29,28 +49,19 @@ public:
     int constTabSearch(std::string);
     void analyze();
     std::string out();
-    std::queue<tokenInfo> getTokens();
+    std::queue<int> getTokens();
+    std::map<std::string, keywordTokenValues> getkTokens() {
+        return kTokens;
+    }
+    std::map<std::string, int> getIdnTokens() {
+        return idnTokens;
+    }
+    std::map<std::string, int> getConstTokens() {
+        return constTokens;
+    }
 private:
     int findMax(std::string);
-    enum tokenValues {
-        WS,
-        CNS,
-        IDN,
-        DM1,
-        DM2,
-        ERR
-    };
-    enum keywordTokenValues {
-        PROGRAM = 401,
-        END,
-        LOOP,
-        ENDLOOP,
-        CASE,
-        OF,
-        ENDCASE,
-        MOD,
-        BEGIN
-    };
+
     std::vector<tokenValues> tokens{128, tokenValues::ERR};
     std::map<std::string, keywordTokenValues> kTokens;
     std::map<std::string, int> idnTokens;
@@ -61,7 +72,7 @@ private:
     std::string outStringProgram;
     int row;
     int column;
-    std::queue<tokenInfo> outTokens;
+    std::queue<int> outTokens;
 };
 
 #endif 
