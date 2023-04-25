@@ -3,14 +3,16 @@
 #include "parser.h"
 
 int main() {
-    TokenAnalyser t("program.txt");
-    t.init();
-    t.analyze();
+    TokenAnalyser* t = new TokenAnalyser("program.txt");
+    t->init();
+    t->analyze();
     // std::cout << t.out();
 
-    Parser p;
-    p.setTokenString(t.out());
-    p.getToken();
+    Parser* p = new Parser();
+    p->setTokens(t->getTokens());
+    p->getToken();
+    p->getToken();
+
 
     return 0;
 }

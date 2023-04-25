@@ -67,6 +67,11 @@ void TokenAnalyser::writeToken(std::string token, int tokenCode, bool delimiter)
     int _column = token.length() > 1 ? column - token.length() : column;
     outStringProgram += std::to_string(row) + "\t\t" + std::to_string(column - token.length()) + "\t\t" + std::to_string(tokenCode) + "\t\t" + token + "\n"; 
     outProgram << row << "\t\t" << column - token.length() << "\t\t" << tokenCode << "\t\t" << token << std::endl; 
+    outTokens.push(tokenInfo(row, column - token.length(), tokenCode, token));
+}
+
+std::queue<tokenInfo> TokenAnalyser::getTokens() {
+    return outTokens;
 }
 
 void TokenAnalyser::writeError(std::string error) {

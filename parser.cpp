@@ -1,23 +1,12 @@
 #include "parser.h"
 
-void Parser::setTokenString(std::string _tokenString) {
-    tokenString = std::istringstream(_tokenString);
+void Parser::setTokens(std::queue<tokenInfo> tokens_) {
+    tokens = std::make_unique<std::queue<tokenInfo>>(tokens_);
 }
-
 int Parser::getToken() {
-    std::string line;
-    int pos = 0;
-    int last_pos = 0;
-    if(!tokenString.eof()) {
-        
-        std::getline(tokenString, line);
-        line += '\0'; 
-        std::cout << line << std::endl; 
-        while((pos = line.find("\t\t", last_pos)) != std::string::npos) {
-            std::cout << line.substr(last_pos, pos - last_pos) << std::endl;
-            last_pos += 2;
-        }
-    }
+    auto token = tokens->front();
+    tokens->pop();
+    std::cout << token.row << " " << token.column << " " << token.token << " " << token.value << std::endl;
 }
 
 void Parser::program() {

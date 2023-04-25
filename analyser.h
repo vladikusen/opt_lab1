@@ -6,6 +6,15 @@
 #include <vector>
 #include <map>
 #include <fstream>
+#include <queue>
+
+struct tokenInfo {
+    tokenInfo(int row_, int column_, int token_, std::string& value_) : row(row_), column(column_), token(token_), value(value_) {}
+    int row;
+    int column;
+    int token;
+    std::string value;
+};
 
 class TokenAnalyser {
 public:
@@ -20,6 +29,7 @@ public:
     int constTabSearch(std::string);
     void analyze();
     std::string out();
+    std::queue<tokenInfo> getTokens();
 private:
     int findMax(std::string);
     enum tokenValues {
@@ -51,6 +61,7 @@ private:
     std::string outStringProgram;
     int row;
     int column;
+    std::queue<tokenInfo> outTokens;
 };
 
 #endif 
