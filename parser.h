@@ -23,6 +23,8 @@ public:
     void multipliersList();
     void multiplicationInstruction();
     void altlist();
+    void alternative();
+    void parse();
 public:
     int getToken();
     void setTokens(std::string tokens_);
@@ -43,6 +45,7 @@ private:
     std::map<std::string, keywordTokenValues> kTokens;
     std::map<std::string, int> idnTokens;
     std::map<std::string, int> constTokens;
+    int ts;
 };
 
 #endif

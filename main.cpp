@@ -14,8 +14,9 @@ int main() {
     p->setIdnTokens(t->getIdnTokens());
     p->setConstTokens(t->getConstTokens());
     p->setKTokens(t->getkTokens());
-    p->getToken();
-    p->getToken();
+    // p->getToken();
+    // p->getToken();
+    p->parse();
 
 
     return 0;

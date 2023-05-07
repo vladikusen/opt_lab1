@@ -2,6 +2,7 @@
 
 void Parser::setTokens(std::queue<int> tokens_) {
     tokens = tokens_;
+    ts = -1;
 }
 int Parser::getToken() {
     if(tokens.empty()) {
@@ -12,50 +13,57 @@ int Parser::getToken() {
     return token;
 }
 
+
+void Parser::parse() {
+    ts = getToken();
+    program();
+}
+
 void Parser::program() {
-    int token = getToken();
-    if(token == keywordTokenValues::PROGRAM) {
+    if(ts == keywordTokenValues::PROGRAM) {
+        ts = getToken();
         procedureIdentifier();
     }
     else {
         std::cerr << "The program should start with program word\n";
         exit(-1);
     }
-    token = getToken();
-    if(token == ';') {
+    ts = getToken();
+    if(ts == ';') {
+        ts = getToken();
         blockIdentifier();
     }
     else {
         std::cerr << "Block identifier is expected\n";
         exit(-1);
     }
-    token = getToken();
-    if(token != '.') {
+    if(ts != '.') {
         std::cerr << "Dot is expected as the end of the program";
         exit(-1);
     }
 }
 
 void Parser::blockIdentifier() {
-    int token = getToken();
-    if(token == keywordTokenValues::BEGIN) {
+    std::cout << "block identifier" << std::endl;
+    if(ts == keywordTokenValues::BEGIN) {
+        ts = getToken();
         statementsList();
     }
     else {
         std::cerr << "Wrong block identifier\n";
         exit(-1);
     }
-    token = getToken();
-    if(token != keywordTokenValues::END) {
+    if(ts != keywordTokenValues::END) {
         std::cerr << "Wrong end identifier\n";
     }
+    ts = getToken();
 }
 
 void Parser::procedureIdentifier() {
-    int token = getToken();
+    std::cout << "Procedure identirier" << std::endl;
     bool found = false;
     for(auto& pair : idnTokens) {
-        if(pair.second == token) {
+        if(pair.second == ts) {
             found = true;
         }
     }
@@ -66,37 +74,45 @@ void Parser::procedureIdentifier() {
 }
 
 void Parser::statementsList() {
+    std::cout << "statements-list" << std::endl;
     statement();    
+    while(ts == ';') {
+        ts = getToken();
+        statement();
+    }
 }
 
 void Parser::statement() {
-    int token = getToken();
-    if(token == keywordTokenValues::LOOP) {
+    if(ts == keywordTokenValues::LOOP) {
+        std::cout << "statement" << std::endl;
+        ts = getToken();
         statementsList();
-        token = getToken();
-        if(token != keywordTokenValues::ENDLOOP) {
+        if(ts != keywordTokenValues::ENDLOOP) {
             std::cerr << "Wrong endloop identified\n";
         }
-        token = getToken();
-        if(token != ';') {
+        ts = getToken();
+        if(ts != ';') {
             std::cerr << "Wrong final delimiter\n";
         }
     }
-    else if(token == keywordTokenValues::CASE) {
+    else if(ts == keywordTokenValues::CASE) {
+        std::cout << "statement" << std::endl;
+        ts = getToken();
         expression();
-        token = getToken();
-        if(token != keywordTokenValues::OF) {
-            std::cerr << "Wrong of identifier\n";
+        
+        if(ts != keywordTokenValues::OF) {
+            std::cerr << "Wrong of identifier after OF" << ts << "\n";
+
             exit(-1);
         }
+        ts = getToken();
         altlist();
-        token = getToken();
-        if(token != keywordTokenValues::ENDCASE) {
-            std::cerr << "Wrong endcase identifier\n";
+        if(ts != keywordTokenValues::ENDCASE) {
+            std::cerr << "Wrong endcase identifier" << ts << "\n";
             exit(-1);
         }
-        token = getToken();
-        if(token != ';') {
+        ts = getToken();
+        if(ts != ';') {
             std::cerr << "Wrong endline delimiter\n";
             exit(-1);
         }
@@ -104,42 +120,80 @@ void Parser::statement() {
 }
 
 void Parser::expression() {
+
+    std::cout << "Expression" << std::endl;
     multiplier();
+    multipliersList();
 }
 
 void Parser::multiplier() {
+    std::cout << "Mutiplier" << std::endl;
     bool found = false;
-    int token = getToken();
+    // int token = getToken();
     for(auto& pair : idnTokens) {
-        if(pair.second == token) {
+        if(pair.second == ts) {
             found = true;
         }
     }    
 
     for(auto& pair : constTokens) {
-        if(pair.second == token) {
+        if(pair.second == ts) {
             found = true;
         }
     }
-
     if(!found) {
-        std::cerr << "wrong multiplier\n";
+        std::cerr << "wrong multiplier" << ts << "\n";
         exit(-1);
     }
-    multipliersList();
+    ts = getToken();
 }
 
 void Parser::multipliersList() {
+    std::cout << "multipliers-list" << std::endl;
+    // if(ts == keywordTokenValues::MOD || ts == '*') {
+    //     ts = getToken();
+    //     multiplier();
+    // }
+    multiplicationInstruction();
+}
+
+void Parser::altlist() {
+    std::cout << "alt-list" << std::endl;
+    bool found = false;
+    for(auto& pair : idnTokens) {
+        if(pair.second == ts) {
+            found = true;
+        }
+    } 
+    for(auto& pair : constTokens) {
+        if(pair.second == ts) {
+            found = true;
+        }
+    }
+    if(found) { 
+        alternative();
+        altlist();
+    }
 
 }
 
+void Parser::alternative() {
+    std::cout << "alternative" << std::endl;
+    expression();
+    if(ts == ':') {
+        ts = getToken(); 
+        statementsList();
+    } 
+}
+            // VARIABLE3 MOD 51: CASE VARIABLE * 2 OF
+            // VARIABLE5: LOOP ENDLOOP;
+
 void Parser::multiplicationInstruction() {
-    int token = getToken();
-    if(token != keywordTokenValues::MOD && token != '*') {
-        std::cerr << "Wrong multiplication instruction\n";
-        exit(-1);
+    while(ts == keywordTokenValues::MOD || ts == '*') {
+       ts = getToken();
+       multiplier(); 
     }
-    multiplier();
+
 }
 
 void Parser::setTokens(std::string tokens_) {
